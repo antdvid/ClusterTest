@@ -1,0 +1,20 @@
+#!/bin/bash
+#$ -N petsc_test 
+#$ -pe mpi 64 
+#$ -q nodes.q
+#$ -j y
+#$ -cwd 
+
+#directory of excutable
+DIR=`pwd`
+echo $DIR
+
+source /etc/profile.d/modules.sh
+source /home/zgao/.bashrc
+module load intel
+module load openmpi-1.8/intel
+
+/act/openmpi-1.8/intel/bin/mpirun -np 64 --map-by node \
+				      	$DIR/mpi_petsc.cx -m 8000 -n 8000 \
+					-pc_type hypre -pc_hypre_type boomeramg \
+					-ksp_type gmres -ksp_monitor -log_summary

@@ -1,0 +1,18 @@
+#!/bin/bash
+#$ -N cpu_test 
+#$ -pe mpi 8 
+#$ -q nodes.q
+#$ -j y
+#$ -cwd 
+# -l h="node01"
+
+#directory of excutable
+DIR=`pwd`
+echo $DIR
+
+source /etc/profile.d/modules.sh
+source /home/zgao/.bashrc
+module load intel
+module load openmpi-1.8/intel
+
+/act/openmpi-1.8/intel/bin/mpirun -np 8 $DIR/mpi_hw.cx

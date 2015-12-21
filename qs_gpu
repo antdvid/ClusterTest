@@ -1,0 +1,18 @@
+#!/bin/bash
+#$ -N gpu_test 
+#$ -pe mpi 1 
+#$ -q gpus.q
+#$ -j y
+#$ -cwd 
+#$ -l h="gpu01"
+
+#directory of excutable
+DIR=`pwd`
+echo $DIR
+
+source /etc/profile.d/modules.sh
+source /home/zgao/.bashrc
+module load intel
+module load openmpi-1.8/intel
+
+/act/openmpi-1.8/intel/bin/mpirun -np 1 $DIR/cuda_hw.gx
