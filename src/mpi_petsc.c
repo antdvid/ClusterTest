@@ -22,6 +22,7 @@ T*/
      petscviewer.h - viewers               petscpc.h  - preconditioners
 */
 #include <petscksp.h>
+#include <time.h>
 
 #undef __FUNCT__
 #define __FUNCT__ "main"
@@ -40,6 +41,10 @@ int main(int argc,char **args)
   PetscLogStage stage;
 #endif
 
+  clock_t start, end;
+  double cpu_time_used;
+
+  start = clock();
   PetscInitialize(&argc,&args,(char*)0,help);
   ierr = PetscOptionsGetInt(NULL,"-m",&m,NULL);CHKERRQ(ierr);
   ierr = PetscOptionsGetInt(NULL,"-n",&n,NULL);CHKERRQ(ierr);
@@ -228,6 +233,14 @@ int main(int argc,char **args)
        - provides summary and diagnostic information if certain runtime
          options are chosen (e.g., -log_summary).
   */
+  end = clock();
+  cpu_time_used = ((double)(end-start))/CLOCKS_PER_SEC;
+  MPI_Allreduce(MPI_IN_PLACE,&cpu_time_used,1,MPI_DOUBLE,MPI_MAX,
+		PETSC_COMM_WORLD);
+  int rank;
+  MPI_Comm_rank(PETSC_COMM_WORLD,&rank);
+  if (rank == 0)
+    printf("Time used: %fs\n",cpu_time_used);
   ierr = PetscFinalize();
   return 0;
 }

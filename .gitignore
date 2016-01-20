@@ -31,3 +31,6 @@
 
 # Temporary
 *.swp
+*.o*
+*.po*
+*.e*
