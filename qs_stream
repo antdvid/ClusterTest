@@ -1,0 +1,8 @@
+#!/bin/bash
+
+N=16
+for i in `seq 1 $N`; do
+echo "Submit job $i"
+qsub -N stream_test -pe mpi 16 qs_cpu $i 
+sleep 10
+done

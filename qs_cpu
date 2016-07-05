@@ -1,10 +1,10 @@
 #!/bin/bash
-#$ -N cpu_test 
-# -pe mpi 4 
-#$ -q nodes.q
+#$ -N stream_test 
+#$ -pe mpi 16
+#$ -q all.q
 #$ -j y
+#$ -R y
 #$ -cwd 
-#$ -l h="node02"
 
 #directory of excutable
 DIR=`pwd`
@@ -13,4 +13,5 @@ echo $DIR
 source /etc/profile.d/modules.sh
 source /home/zgao/.bashrc
 
-mpirun -np 1 --rank-by core $DIR/mpi_hw.cx
+echo "mpirun -np $1 $DIR/mpi_stream.cx"
+mpirun -np $1 $DIR/mpi_stream.cx

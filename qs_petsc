@@ -1,11 +1,11 @@
 #!/bin/bash
 #$ -N petsc_test 
-#$ -pe mpi 64 
 #$ -q nodes.q
+#$ -pe mpi 1 
 #$ -j y
 #$ -R y
 #$ -cwd 
-# -l h="node01|node02"
+#$ -l h="!node04&!node06&!node14&!node16"
 
 #directory of excutable
 DIR=`pwd`
@@ -15,4 +15,5 @@ ulimit -s unlimited
 source /etc/profile.d/modules.sh
 source /home/zgao/.bashrc
 #run options
-mpirun -np ${NP} ${DIR}/mpi_petsc.cx -m 4000 -n 4000 -pc_type hypre -pc_hypre_type boomeramg -ksp_type gmres -ksp_monitor -log_summary
+mpirun -np 1 ${DIR}/mpi_petsc.cx -m 4096 -n 4096 -pc_type hypre -pc_hypre_type boomeramg -pc_hypre_boomeramg_strong_threshold 0.75 -pc_hypre_boomeramg_agg_nl 2 -ksp_type gmres -ksp_monitor -log_summary
+#mpirun -np 256 ${DIR}/mpi_petsc.cx -m 4096 -n 4096 -pc_type hypre -pc_hypre_type boomeramg -ksp_type gmres -ksp_monitor -log_summary

@@ -6,11 +6,11 @@ NC_LIB = -L /opt/cuda/lib -lcudart
 
 SRC_DIR = ./src
 
-PETSC_DIR = /opt/petsc3.6-openmpi
+PETSC_DIR = /opt/petsc3.6-mpich2
 PETSC_INCL_DIR = $(PETSC_DIR)/include
 PETSC_LIB_DIR = $(PETSC_DIR)/lib
 
-all: mpi_hw.cx mpi_poisson.cx cuda_hw.gx omp_stream.cx mpi_petsc.cx
+all: mpi_hw.cx mpi_poisson.cx cuda_hw.gx omp_stream.cx mpi_stream.cx mpi_petsc.cx
 clean:
 	rm -f *.cx *.gx *.o* *.po*
 clean_out:
@@ -18,8 +18,8 @@ clean_out:
 
 #compiling rules for specific problem
 mpi_stream.cx: $(SRC_DIR)/mpi_stream.c
-	mpicc -O3 -ffreestanding -openmp -mcmodel=medium \
-            -DSTREAM_ARRAY_SIZE=80000000 -DNTIMES=20 -DVERBOSE   \
+	mpicc -O3 -std=c99 -ffreestanding -mcmodel=medium \
+            -DSTREAM_ARRAY_SIZE=400000000 -DNTIMES=20 \
             $(SRC_DIR)/mpi_stream.c -o mpi_stream.cx
 
 omp_stream.cx: $(SRC_DIR)/omp_stream.c
