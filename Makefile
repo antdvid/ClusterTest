@@ -19,7 +19,7 @@ clean_out:
 #compiling rules for specific problem
 mpi_stream.cx: $(SRC_DIR)/mpi_stream.c
 	mpicc -O3 -std=c99 -ffreestanding -mcmodel=medium \
-            -DSTREAM_ARRAY_SIZE=400000000 -DNTIMES=20 \
+            -DSTREAM_ARRAY_SIZE=2000000 -DNTIMES=50 \
             $(SRC_DIR)/mpi_stream.c -o mpi_stream.cx
 
 omp_stream.cx: $(SRC_DIR)/omp_stream.c

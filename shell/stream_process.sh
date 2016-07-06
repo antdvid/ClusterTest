@@ -6,8 +6,8 @@ printf "%-8s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s\n" "%cores" \
 "AddBandwidth" "AddTime" \
 "TriadBandwidth" "TriadTime"
 
-filebase="./stream_test.o*"
-for f in `ls $filebase`; do
+filebase="$1"
+for f in `ls $filebase*`; do
 	ranks=`grep "MPI ranks" $f`
 	ranks=${ranks#*across }
 	ranks=${ranks% MPI*}

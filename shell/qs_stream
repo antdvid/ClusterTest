@@ -1,0 +1,11 @@
+#!/bin/bash
+
+N=16
+for i in `seq 1 $N`; do
+echo "Submit job $i"
+mpirun -np $i -bind-to core -map-by socket mpi_stream.cx > log$i 
+done
+stream_process.sh log | sort -g > stream.log
+cat stream.log
+octave stream_plot.m
+display stream.jpg
